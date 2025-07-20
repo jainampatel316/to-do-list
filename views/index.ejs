@@ -1,0 +1,142 @@
+<%- include('partials/header') %>
+
+<main class="main-content">
+    <div class="container">
+        
+        <!-- Add Todo Form -->
+        <div class="todo-form-container">
+            <form id="addTodoForm" action="/add" method="POST" class="todo-form">
+                <div class="form-group">
+                    <input type="text" 
+                           id="todoInput" 
+                           name="text" 
+                           placeholder="Enter a new task..." 
+                           class="todo-input"
+                           maxlength="200">
+                    
+                    <select name="priority" class="priority-select">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    
+                    <button type="submit" class="add-btn">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Alert for empty input -->
+            <div id="errorAlert" class="alert alert-error" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                Please enter a task before adding!
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <h3><i class="fas fa-filter"></i> Filter by Priority:</h3>
+            <div class="filter-buttons">
+                <a href="/" class="filter-btn <%= filter === 'all' ? 'active' : '' %>">
+                    All Tasks
+                </a>
+                <% priorities.forEach(priority => { %>
+                    <a href="/?priority=<%= priority %>" 
+                       class="filter-btn priority-<%= priority %> <%= filter === priority ? 'active' : '' %>">
+                        <i class="fas fa-<%= priority === 'high' ? 'exclamation' : priority === 'medium' ? 'minus' : 'arrow-down' %>"></i>
+                        <%= priority.charAt(0).toUpperCase() + priority.slice(1) %>
+                    </a>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- Todo List -->
+        <div class="todo-list-container">
+            <h3>
+                <i class="fas fa-list"></i> 
+                Tasks 
+                <span class="task-count">(<%= todos.length %>)</span>
+            </h3>
+            
+            <% if (todos.length === 0) { %>
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h4>No tasks found!</h4>
+                    <p>
+                        <% if (filter !== 'all') { %>
+                            Try changing the filter or 
+                        <% } %>
+                        add your first task above.
+                    </p>
+                </div>
+            <% } else { %>
+                <div class="todo-list">
+                    <% todos.forEach(todo => { %>
+                        <div class="todo-item <%= todo.completed ? 'completed' : '' %>" data-priority="<%= todo.priority %>">
+                            
+                            <!-- Todo Content -->
+                            <div class="todo-content">
+                                <form action="/toggle/<%= todo.id %>" method="POST" class="toggle-form">
+                                    <button type="submit" class="toggle-btn" title="<%= todo.completed ? 'Mark as incomplete' : 'Mark as complete' %>">
+                                        <i class="fas fa-<%= todo.completed ? 'check-circle' : 'circle' %>"></i>
+                                    </button>
+                                </form>
+                                
+                                <div class="todo-text-container">
+                                    <div class="todo-text" id="text-<%= todo.id %>">
+                                        <%= todo.text %>
+                                    </div>
+                                    <div class="todo-meta">
+                                        <span class="priority-badge priority-<%= todo.priority %>">
+                                            <i class="fas fa-<%= todo.priority === 'high' ? 'exclamation' : todo.priority === 'medium' ? 'minus' : 'arrow-down' %>"></i>
+                                            <%= todo.priority %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form (Hidden by default) -->
+                            <form action="/edit/<%= todo.id %>" method="POST" class="edit-form" id="edit-form-<%= todo.id %>" style="display: none;">
+                                <input type="text" 
+                                       name="text" 
+                                       value="<%= todo.text %>" 
+                                       class="edit-input"
+                                       maxlength="200"
+                                       required>
+                                <select name="priority" class="edit-priority">
+                                    <option value="low" <%= todo.priority === 'low' ? 'selected' : '' %>>Low</option>
+                                    <option value="medium" <%= todo.priority === 'medium' ? 'selected' : '' %>>Medium</option>
+                                    <option value="high" <%= todo.priority === 'high' ? 'selected' : '' %>>High</option>
+                                </select>
+                                <button type="submit" class="save-btn" title="Save changes">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button type="button" class="cancel-btn" onclick="cancelEdit('<%= todo.id %>')" title="Cancel editing">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                            
+                            <!-- Action Buttons -->
+                            <div class="todo-actions">
+                                <button type="button" 
+                                        class="edit-btn" 
+                                        onclick="editTodo('<%= todo.id %>')"
+                                        title="Edit task">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                
+                                <form action="/delete/<%= todo.id %>" method="POST" class="delete-form" onsubmit="return confirmDelete()">
+                                    <button type="submit" class="delete-btn" title="Delete task">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
