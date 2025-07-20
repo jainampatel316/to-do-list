@@ -3,10 +3,11 @@
 A dynamic and responsive Todo List web application built with Node.js, Express, and EJS templating engine.
 
 ## 🚀 Live Demo
-**[View Live Application](https://to-do-list-6q96.onrender.com/)**
+**[🌟 View Live Application](https://to-do-list-6q96.onrender.com/)**
 
 [![Deploy on Render](https://img.shields.io/badge/Deploy%20on-Render-blue)](https://to-do-list-6q96.onrender.com/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/jainampatel316/keeper-app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-brightgreen)](https://to-do-list-6q96.onrender.com/)
 
 ## Features
 
