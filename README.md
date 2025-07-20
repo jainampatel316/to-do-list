@@ -6,7 +6,7 @@ A dynamic and responsive Todo List web application built with Node.js, Express, 
 **[🌟 View Live Application](https://to-do-list-6q96.onrender.com/)**
 
 [![Deploy on Render](https://img.shields.io/badge/Deploy%20on-Render-blue)](https://to-do-list-6q96.onrender.com/)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/jainampatel316/keeper-app)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/jainampatel316/to-do-list)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-brightgreen)](https://to-do-list-6q96.onrender.com/)
 
 ## Features
@@ -169,7 +169,7 @@ You can deploy this application directly to Render using the following steps:
 
 1. **Fork/Clone the Repository**
    - Make sure your code is pushed to a GitHub repository
-   - Repository URL: `https://github.com/jainampatel316/keeper-app.git`
+   - Repository URL: `https://github.com/jainampatel316/to-do-list.git`
 
 2. **Create a Render Account**
    - Go to [render.com](https://render.com)
@@ -178,7 +178,7 @@ You can deploy this application directly to Render using the following steps:
 3. **Deploy from GitHub**
    - Click "New +" → "Web Service"
    - Connect your GitHub account if not already connected
-   - Select your repository: `keeper-app`
+   - Select your repository: `to-do-list`
    - Configure the deployment:
 
 ### Render Configuration Settings
@@ -200,7 +200,7 @@ You can deploy this application directly to Render using the following steps:
 
 1. **Connect Repository**
    ```
-   Repository: https://github.com/jainampatel316/keeper-app
+   Repository: https://github.com/jainampatel316/to-do-list
    Branch: main
    ```
 
