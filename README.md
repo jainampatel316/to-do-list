@@ -155,6 +155,86 @@ npm install -g nodemon
 npm run dev
 ```
 
+## Deployment on Render
+
+### Quick Deploy
+You can deploy this application directly to Render using the following steps:
+
+1. **Fork/Clone the Repository**
+   - Make sure your code is pushed to a GitHub repository
+   - Repository URL: `https://github.com/jainampatel316/keeper-app.git`
+
+2. **Create a Render Account**
+   - Go to [render.com](https://render.com)
+   - Sign up for a free account (you can use your GitHub account)
+
+3. **Deploy from GitHub**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub account if not already connected
+   - Select your repository: `keeper-app`
+   - Configure the deployment:
+
+### Render Configuration Settings
+
+| Setting | Value |
+|---------|-------|
+| **Name** | `todo-list-app` (or any name you prefer) |
+| **Environment** | `Node` |
+| **Region** | Choose closest to your location |
+| **Branch** | `main` |
+| **Root Directory** | `.` (leave empty) |
+| **Build Command** | `npm install` |
+| **Start Command** | `npm start` |
+
+### Environment Variables (Optional)
+- **PORT**: Render automatically sets this, but you can set it to `3000` if needed
+
+### Deployment Steps
+
+1. **Connect Repository**
+   ```
+   Repository: https://github.com/jainampatel316/keeper-app
+   Branch: main
+   ```
+
+2. **Configure Build Settings**
+   ```
+   Build Command: npm install
+   Start Command: npm start
+   ```
+
+3. **Deploy**
+   - Click "Create Web Service"
+   - Render will automatically deploy your application
+   - The build process typically takes 2-3 minutes
+
+4. **Access Your App**
+   - Once deployed, you'll get a URL like: `https://todo-list-app-xxxx.onrender.com`
+   - Your app will be live and accessible worldwide!
+
+### Features on Render
+- ✅ **Free Tier Available**: 750 hours/month free
+- ✅ **Automatic HTTPS**: SSL certificate included
+- ✅ **Custom Domains**: Add your own domain (paid plans)
+- ✅ **Auto-Deploy**: Automatically redeploys on GitHub pushes
+- ✅ **Logs & Monitoring**: Built-in logging and health checks
+
+### Important Notes
+- The free tier spins down after 15 minutes of inactivity
+- It may take 30-60 seconds to "wake up" on first request after sleeping
+- For production apps, consider upgrading to a paid plan
+
+### Auto-Deploy Setup
+To enable automatic deployments when you push code:
+1. In Render dashboard, go to your service
+2. Settings → Build & Deploy
+3. Enable "Auto-Deploy" for the main branch
+
+### Troubleshooting
+- **Build Fails**: Check that `package.json` has correct scripts
+- **App Won't Start**: Verify the start command is `npm start`
+- **Port Issues**: Render automatically assigns PORT environment variable
+
 ## Future Enhancements
 
 - [ ] User authentication and multiple user support
