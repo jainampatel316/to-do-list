@@ -42,18 +42,57 @@ app.get('/', (req, res) => {
     });
 });
 
+// Validation functions
+function validateTodoInput(text, priority) {
+    const errors = [];
+    
+    // Validate text
+    if (!text || typeof text !== 'string') {
+        errors.push('Task text is required');
+    } else {
+        const trimmedText = text.trim();
+        if (trimmedText.length === 0) {
+            errors.push('Task text cannot be empty');
+        } else if (trimmedText.length > 200) {
+            errors.push('Task text must be 200 characters or less');
+        } else if (!/^(?!\s*$).+/.test(trimmedText)) {
+            errors.push('Task text cannot contain only whitespace');
+        }
+    }
+    
+    // Validate priority
+    const validPriorities = ['low', 'medium', 'high'];
+    if (!priority || !validPriorities.includes(priority)) {
+        errors.push('Please select a valid priority level');
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors,
+        sanitizedText: text ? text.trim() : '',
+        validatedPriority: validPriorities.includes(priority) ? priority : 'medium'
+    };
+}
+
 // POST - Add a new todo
 app.post('/add', (req, res) => {
     const { text, priority } = req.body;
     
-    if (text && text.trim() !== '') {
+    const validation = validateTodoInput(text, priority);
+    
+    if (validation.isValid) {
         const newTodo = {
             id: nextId++,
-            text: text.trim(),
-            priority: priority || 'medium',
+            text: validation.sanitizedText,
+            priority: validation.validatedPriority,
             completed: false
         };
         todos.push(newTodo);
+        console.log(`New todo added: ${JSON.stringify(newTodo)}`);
+    } else {
+        console.log(`Validation failed: ${validation.errors.join(', ')}`);
+        // In a real app, you might want to return errors to the client
+        // For now, we'll just redirect back
     }
     
     res.redirect('/');
@@ -64,10 +103,19 @@ app.post('/edit/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const { text, priority } = req.body;
     
-    const todoIndex = todos.findIndex(todo => todo.id === id);
-    if (todoIndex !== -1 && text && text.trim() !== '') {
-        todos[todoIndex].text = text.trim();
-        todos[todoIndex].priority = priority || 'medium';
+    const validation = validateTodoInput(text, priority);
+    
+    if (validation.isValid) {
+        const todoIndex = todos.findIndex(todo => todo.id === id);
+        if (todoIndex !== -1) {
+            todos[todoIndex].text = validation.sanitizedText;
+            todos[todoIndex].priority = validation.validatedPriority;
+            console.log(`Todo ${id} updated: ${JSON.stringify(todos[todoIndex])}`);
+        } else {
+            console.log(`Todo with ID ${id} not found`);
+        }
+    } else {
+        console.log(`Edit validation failed for todo ${id}: ${validation.errors.join(', ')}`);
     }
     
     res.redirect('/');
